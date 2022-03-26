@@ -20,10 +20,9 @@ import java.util.concurrent.Executors
 
  class MainActivity : AppCompatActivity() {
 
-    lateinit var camera : Camera
-    lateinit var skinCancerDetector: SkinCancerDetector
-    lateinit var executors: ExecutorService
-
+    private lateinit var camera : Camera
+    private lateinit var skinCancerDetector: SkinCancerDetector
+    private lateinit var executors: ExecutorService
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
