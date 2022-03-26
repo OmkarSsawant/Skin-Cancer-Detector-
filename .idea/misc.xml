@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/sr sawant/AndroidStudioProjects/SkinCancerDetection/app/src/main/res/layout/activity_main.xml" value="0.14792899408284024" />
         <entry key="..\:/Users/sr sawant/AndroidStudioProjects/SkinCancerDetection/app/src/main/res/layout/bottom_sheet_skin_cancer_output.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/sr sawant/AndroidStudioProjects/SkinCancerDetection/app/src/main/res/layout/fragment_home.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/sr sawant/AndroidStudioProjects/SkinCancerDetection/app/src/main/res/layout/fragment_live_detection.xml" value="0.24635416666666668" />
         <entry key="..\:/Users/sr sawant/AndroidStudioProjects/SkinCancerDetection/app/src/main/res/layout/result_tile.xml" value="0.24635416666666668" />
       </map>
     </option>

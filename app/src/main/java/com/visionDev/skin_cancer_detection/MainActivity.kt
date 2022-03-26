@@ -22,74 +22,14 @@ import java.util.concurrent.Executors
 
  class MainActivity : AppCompatActivity() {
 
-    private lateinit var camera : Camera
-    private lateinit var skinCancerDetector: SkinCancerDetector
-    private lateinit var executors: ExecutorService
-    private val skinReportAdapter:  SkinReportAdapter = SkinReportAdapter()
-
-
      override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        executors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
-        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.CAMERA)== PermissionChecker.PERMISSION_GRANTED)
-            initCameraX()
-        else
-        {
-            Toast.makeText(this,"Please Grant Camera Permission to proceed",Toast.LENGTH_SHORT).show()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(arrayOf(android.Manifest.permission.CAMERA),1)
-            }
-        }
-    }
+         setContentView(R.layout.activity_main)
+         super.onCreate(savedInstanceState)
 
-     private fun initCameraX() {
-        val camP =  ProcessCameraProvider.getInstance(this)
-         camP.addListener( {
-             val cameraProvider = camP.get()
+         supportFragmentManager.beginTransaction()
+             .add(R.id.host,HomeFragment(),"HOME")
+             .commit()
 
-             val cameraSelector  = CameraSelector.Builder()
-                 .requireLensFacing(LENS_FACING_BACK)
-                 .build()
-
-             val preview = Preview.Builder()
-                 .build()
-             val pv:PreviewView = findViewById(R.id.camera_view)
-             preview.setSurfaceProvider(pv.surfaceProvider)
-
-             val analyzer = ImageAnalysis.Builder()
-                 .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
-
-                 .build()
-             analyzer.setAnalyzer(executors,SkinCancerAnalyzer())
-
-             camera = cameraProvider.bindToLifecycle(this,cameraSelector,preview,analyzer)
-             skinCancerDetector = SkinCancerDetector(this)
-             val results : RecyclerView = findViewById(R.id.result_list)
-             results.layoutManager = LinearLayoutManager(this)
-             results.adapter = skinReportAdapter
-         },ContextCompat.getMainExecutor(this))
-     }
-
-
-
-
-     inner class SkinCancerAnalyzer : ImageAnalysis.Analyzer{
-         override fun analyze(image: ImageProxy) {
-           val reports =  skinCancerDetector.detect(image)
-             if (reports != null) {
-                 skinReportAdapter.onReport(reports)
-             }
-             image.close()
-         }
-     }
-
-
-     override fun onDestroy() {
-         if(::executors.isInitialized)
-                executors.shutdownNow()
-         skinCancerDetector.dispose()
-         super.onDestroy()
      }
 
  }

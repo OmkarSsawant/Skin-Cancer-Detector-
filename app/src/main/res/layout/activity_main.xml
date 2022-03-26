@@ -1,35 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.fragment.app.FragmentContainerView
+    android:id="@+id/host"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:gravity="center"
 
-   <androidx.camera.view.PreviewView
-       android:id="@+id/camera_view"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".MainActivity"/>
 
-   <androidx.constraintlayout.widget.ConstraintLayout
-       app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-       android:layout_width="match_parent"
-       android:layout_height="300dp"
-      android:minHeight="20dp"
-       >
-      <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/result_list"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="@color/white"
-
-          tools:listitem="@layout/result_tile"
-          />
-   </androidx.constraintlayout.widget.ConstraintLayout>
-   </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
