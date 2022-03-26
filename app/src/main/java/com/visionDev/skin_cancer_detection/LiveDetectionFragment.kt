@@ -2,6 +2,8 @@ package com.visionDev.skin_cancer_detection
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -80,14 +82,26 @@ class LiveDetectionFragment : Fragment() {
 
 
 
+    val handler = Handler(Looper.getMainLooper())
+    @Volatile
+    var holdResults =  false
+    /*
+    * makes sures that after each interval
+    * of 10 secs the results are updated
+    * */
+     val RESULT_HOLD_SPAN = 10_000L
 
     inner class SkinCancerAnalyzer : ImageAnalysis.Analyzer{
         override fun analyze(image: ImageProxy) {
+            if(holdResults) return
             val reports =  skinCancerDetector.detect(image)
             if (reports != null) {
                 skinReportAdapter.onReport(reports)
             }
             image.close()
+            handler.postDelayed({
+                holdResults = !holdResults
+            },RESULT_HOLD_SPAN)
         }
     }
 

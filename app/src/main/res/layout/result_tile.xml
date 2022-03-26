@@ -5,8 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="24dp"
+    android:elevation="54dp"
     android:layout_margin="12dp"
+    app:cardBackgroundColor="#88040000"
+
+    app:cardCornerRadius="7dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,9 +20,10 @@
         <TextView
             android:id="@+id/skin_disease_name"
             android:layout_width="0dp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:text="TextView"
-
+            android:padding="4dp"
             app:layout_constraintEnd_toStartOf="@+id/confidence"
             app:layout_constraintHorizontal_bias="0.145"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,9 +46,11 @@
 
         <TextView
             android:id="@+id/confidence"
+            android:padding="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textColor="#BFFFFFFF"
             android:layout_marginEnd="8dp"
             android:text="TextView"
             app:layout_constraintBottom_toTopOf="@+id/skin_disease_probability"
