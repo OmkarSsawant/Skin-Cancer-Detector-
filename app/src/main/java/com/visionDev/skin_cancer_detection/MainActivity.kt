@@ -13,6 +13,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
@@ -23,9 +25,10 @@ import java.util.concurrent.Executors
     private lateinit var camera : Camera
     private lateinit var skinCancerDetector: SkinCancerDetector
     private lateinit var executors: ExecutorService
+    private val skinReportAdapter:  SkinReportAdapter = SkinReportAdapter()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         executors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
@@ -56,11 +59,15 @@ import java.util.concurrent.Executors
 
              val analyzer = ImageAnalysis.Builder()
                  .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
+
                  .build()
              analyzer.setAnalyzer(executors,SkinCancerAnalyzer())
 
              camera = cameraProvider.bindToLifecycle(this,cameraSelector,preview,analyzer)
              skinCancerDetector = SkinCancerDetector(this)
+             val results : RecyclerView = findViewById(R.id.result_list)
+             results.layoutManager = LinearLayoutManager(this)
+             results.adapter = skinReportAdapter
          },ContextCompat.getMainExecutor(this))
      }
 
@@ -69,7 +76,10 @@ import java.util.concurrent.Executors
 
      inner class SkinCancerAnalyzer : ImageAnalysis.Analyzer{
          override fun analyze(image: ImageProxy) {
-            skinCancerDetector.detect(image)
+           val reports =  skinCancerDetector.detect(image)
+             if (reports != null) {
+                 skinReportAdapter.onReport(reports)
+             }
              image.close()
          }
      }
