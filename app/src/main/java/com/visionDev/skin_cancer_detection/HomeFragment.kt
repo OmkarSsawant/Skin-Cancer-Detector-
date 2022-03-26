@@ -25,12 +25,14 @@ class HomeFragment : Fragment() {
         liveDetection.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.host,LiveDetectionFragment(),"LIVE_DETECTION")
+                .addToBackStack(null)
                 .commit()
         }
 
         staticDetection.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.host,StaticDetectionFragment(detector = SkinCancerDetector(requireContext())),"STATIC_DETECTION")
+                .addToBackStack(null)
                 .commit()
         }
     }

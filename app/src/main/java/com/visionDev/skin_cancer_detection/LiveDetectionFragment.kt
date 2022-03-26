@@ -80,18 +80,23 @@ class LiveDetectionFragment : Fragment() {
 
 
 
+    var lastTime : Long = 0L
+
 
 
     inner class SkinCancerAnalyzer : ImageAnalysis.Analyzer{
         override fun analyze(image: ImageProxy) {
-
-            val reports =  skinCancerDetector.detect(image)
-            if (reports != null) {
-                skinReportAdapter.onReport(reports)
-
+            val now = System.currentTimeMillis()
+            if(now - lastTime > 2000L){
+                val reports =  skinCancerDetector.detect(image)
+                if (reports != null) {
+                    skinReportAdapter.onReport(reports)
+                }
+                image.close()
+                lastTime = System.currentTimeMillis()
+            }else {
+                image.close()
             }
-            image.close()
-
         }
     }
 
