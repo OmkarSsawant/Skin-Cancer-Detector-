@@ -45,10 +45,12 @@ class SkinReportAdapter : RecyclerView.Adapter<SkinReportAdapter.ResultVH>(),Ski
     inner class ResultVH(iv: View):RecyclerView.ViewHolder(iv){
         private val diseaseName: TextView = iv.findViewById(R.id.skin_disease_name)
         private val confidence:ProgressBar = iv.findViewById(R.id.skin_disease_probability)
-
+        private val confidencePer:TextView = iv.findViewById(R.id.confidence)
         fun setResult(disease:String,prob:Float){
             diseaseName.text = disease
-            confidence.progress = (100 * prob).roundToInt()
+            val percentage =  (100 * prob).roundToInt()
+            confidence.progress = percentage
+            confidencePer.text = "$percentage %"
         }
     }
 

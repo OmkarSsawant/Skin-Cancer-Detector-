@@ -28,6 +28,7 @@ import java.util.concurrent.Executors
 
          supportFragmentManager.beginTransaction()
              .add(R.id.host,HomeFragment(),"HOME")
+             .addToBackStack(null)
              .commit()
 
      }

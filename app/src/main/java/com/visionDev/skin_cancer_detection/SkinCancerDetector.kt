@@ -17,12 +17,17 @@ class SkinCancerDetector(context:Context) : OrientationEventListener(context,Sen
     }
     private var orientation:Int = 0
 
+    @SuppressLint("UnsafeOptInUsageError")
     fun detect(imgP: ImageProxy): Map<String, Float>? {
-        val modelInput: TensorBuffer = prepareModelInput(imgP) ?: return null
+        val mBITMAP = imgP.image?.toBitmap() ?: return null
+        return detect(mBITMAP)
+    }
+
+    fun detect(bitmap: Bitmap):Map<String,Float>?{
+        val modelInput: TensorBuffer = prepareModelInput(bitmap) ?: return null
         val outputs = skinModel.process(modelInput)
         return mapToRecognitions(outputs)
     }
-
     private fun mapToRecognitions(outputs: Model.Outputs): Map<String,Float> {
         val mOutputs = mutableMapOf<String,Float>()
         outputs.outputFeature0AsTensorBuffer.floatArray.forEachIndexed{i,confidence ->
@@ -31,14 +36,14 @@ class SkinCancerDetector(context:Context) : OrientationEventListener(context,Sen
         return mOutputs
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
-    private fun prepareModelInput(imgP: ImageProxy): TensorBuffer? {
-        val mBITMAP = imgP.image?.toBitmap() ?: return null
+    private fun prepareModelInput(mBITMAP:Bitmap): TensorBuffer? {
         val resized = Bitmap.createScaledBitmap(mBITMAP,224,224,true)
         val tensorImage = TensorImage(DataType.FLOAT32)
         tensorImage.load(resized)
         return tensorImage.tensorBuffer
     }
+
+
 
     fun dispose(){
         skinModel.close()

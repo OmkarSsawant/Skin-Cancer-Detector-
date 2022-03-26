@@ -17,12 +17,6 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    val liveDetectionFragment : LiveDetectionFragment by lazy {
-        LiveDetectionFragment()
-    }
-    val staticDetectionFragment : StaticDetectionFragment by lazy {
-        StaticDetectionFragment()
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val liveDetection:Button = view.findViewById(R.id.live_detection_btn)
@@ -30,13 +24,13 @@ class HomeFragment : Fragment() {
 
         liveDetection.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.host,liveDetectionFragment,"LIVE_DETECTION")
+                .replace(R.id.host,LiveDetectionFragment(),"LIVE_DETECTION")
                 .commit()
         }
 
         staticDetection.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.host,staticDetectionFragment,"STATIC_DETECTION")
+                .replace(R.id.host,StaticDetectionFragment(detector = SkinCancerDetector(requireContext())),"STATIC_DETECTION")
                 .commit()
         }
     }
